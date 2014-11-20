@@ -1,0 +1,49 @@
+
+html,
+body,
+main {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+main::after {
+  background: url(images/logo.svg);
+  display: block;
+  content: ' ';
+  height: 50px;
+  width: 187px;
+  position: absolute;
+  bottom: 5em;
+  right: 5em;
+}
+
+* {
+  box-sizing: boder-box;
+  outline: none;
+}
+
+section {
+  display: inline-block;
+  width: 100%;
+}
+  section::after {
+    background-color: rgb(255,255,255);
+    display: block;
+    content: ' ';
+    height: 80px;
+    position: absolute;
+    width: 200px;
+    left: 10px;
+    top: 10px;
+    z-index: 2;
+  }
+
+#palette {
+  height: 15%;
+}
+#flow {
+  height: 80%;
+}
+
