@@ -160,13 +160,13 @@ function init() {
       $(go.Shape, "Circle", {
         minSize: new go.Size(40, 40),
         fill: "white",
-        stroke: "gray",
+        stroke: red,
         strokeDashArray: [2, 1]
       }),
       $(go.TextBlock, "Yes", {
         textAlign: "center",
         font: font,
-        stroke: "#333333",
+        stroke: red,
         editable: true
       },
       new go.Binding("text", "text").makeTwoWay())
