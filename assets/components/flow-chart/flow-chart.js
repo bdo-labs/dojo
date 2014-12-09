@@ -24,7 +24,7 @@ function FlowCtrl(){
 
   var lightText = 'rgb(100,100,100)';
   var red = 'rgb(243,73,74)';
-  var font = '10pt Helvetica neue';
+  var font = '10pt Helvetica neue,Helvetica,Sans serif';
   var air = 10;
 
   function showPorts(node, show) {
@@ -109,7 +109,7 @@ function FlowCtrl(){
         name: 'text',
         textAlign: 'center',
         margin: 10,
-        font: '12pt Helvetica neue',
+        font: font.replace('10', '12'),
         stroke: red,
         editable: true
       },
