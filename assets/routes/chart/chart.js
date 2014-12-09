@@ -35,14 +35,14 @@ function ChartService(){
   //     | We can then synchronize the data to a remote storage.
 
   var nodesArray = [
-    {"text":"Identifying thematic funding opportunities", "key":1, "loc":"-304.0000000000001 47.00000000000006", "tags": ["grant"]},
-    {"text":"Identify regional / strategic funding opportunities", "key":2, "loc":"12.999999999999915 47.000000000000085", "tags": ["grant"] },
-    {"text":"Track and identify funding opportunities", "key":3, "loc":"347.00000000000017 46.999999999999886", "tags": ["grant", "regnskap"]},
-    {"text":"Identify team and call meeting", "key":4, "loc":"98.00000000000034 345", "tags": ["grant", "regnskap"]},
-    {"text":"Funding\navailable?", "category":"Decision", "key":-3, "loc":"347 249.00000000000003", "tags": ["regnskap"]},
+    {"text":"Identifying thematic funding opportunities", "key":1, "loc":"-304.0000000000001 47.00000000000006", "tags": ["grant manager"]},
+    {"text":"Identify regional / strategic funding opportunities", "key":2, "loc":"12.999999999999915 47.000000000000085", "tags": ["grant manager"] },
+    {"text":"Track and identify funding opportunities", "key":3, "loc":"347.00000000000017 46.999999999999886", "tags": ["grant manager", "PFO"]},
+    {"text":"Identify team and call meeting", "key":4, "loc":"98.00000000000034 345", "tags": ["grant manager", "PFO"]},
+    {"text":"Funding\navailable?", "category":"Decision", "key":-3, "loc":"347 249.00000000000003", "tags": ["PFO"]},
     {"text":"Disregard funding", "key":-10, "loc":"590.0000000000002 335", "tags": []},
-    {"text":"Start", "category":"Process", "key":-1, "loc":"-500 47", "tags": ["grant"]},
-    {"text":"End", "category":"Process", "key":-4, "loc":"347 444.00000000000006", "tags": ["regnskap"]}
+    {"text":"Start", "category":"Process", "key":-1, "loc":"-500 47", "tags": ["grant manager"]},
+    {"text":"End", "category":"Process", "key":-4, "loc":"347 444.00000000000006", "tags": ["PFO"]}
   ];
 
   var linksArray = [
