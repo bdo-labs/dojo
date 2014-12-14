@@ -112,8 +112,8 @@ h1 {
 }
 
 #palette {
-  transition: 1s ease;
   opacity: 1;
+  transition: 1s ease;
 }
 
 #palette.ng-hide {

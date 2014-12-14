@@ -2,7 +2,10 @@
   <header>
     <h1>{{chart.title}}</h1>
     <menu>
-      <a ng-class="{active: chart.highlight.indexOf(tag) !== -1}" ng-repeat="tag in chart.tags" ng-click="chart.highlight=tag">{{tag}}</a>
+      <a ng-class="{active: tag && chart.highlight.indexOf(tag) !== -1}"
+        ng-repeat="tag in chart.tags"
+        ng-mouseover="chart.highlight=tag"
+        ng-click="chart.highlight=tag">{{tag}}</a>
     </menu>
     <input ng-model="chart.highlight" type="search" name="search" placeholder="Eg. foo">
     <a ng-class="{active: editable}"><i class="ion-edit" ng-click="editable=!editable"></i></a>
