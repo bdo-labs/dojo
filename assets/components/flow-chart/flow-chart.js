@@ -74,9 +74,18 @@ function FlowCtrl(){
       make(go.Shape, 'Rectangle', {
         name: 'shape',
         fill: 'rgb(210,210,210)',
-        stroke: null,
+        stroke: red,
+        strokeWidth: 0,
         margin: air
       },
+      new go.Binding('fill', 'tags', function(tags){
+        if (tags.indexOf('critical') != -1) return 'rgb(255,255,255)';
+        else return 'rgb(210,210,210)';
+      }),
+      new go.Binding('strokeWidth', 'tags', function(tags){
+        if (tags.indexOf('critical') != -1) return 3;
+        return 0;
+      }),
       new go.Binding("figure", "figure")),
       make(go.TextBlock, {
         name: 'text',
@@ -100,7 +109,7 @@ function FlowCtrl(){
       make(go.Shape, 'Circle', {
         name: 'shape',
         minSize: new go.Size(80, 80),
-        fill: 'transparent',
+        fill: 'rgb(255,255,255)',
         stroke: 'rgb(210,210,210)',
         strokeWidth: 3,
         margin: air
@@ -109,7 +118,7 @@ function FlowCtrl(){
         name: 'text',
         textAlign: 'center',
         margin: 10,
-        font: '12pt Helvetica neue',
+        font: font.replace('10', '12'),
         stroke: red,
         editable: true
       },
@@ -141,6 +150,30 @@ function FlowCtrl(){
     makePort('T', go.Spot.Top, false, true),
     makePort('L', go.Spot.Left, true, true),
     makePort('R', go.Spot.Right, true, true),
+    makePort('B', go.Spot.Bottom, true, false)
+  );
+
+  var systemNode = make(go.Node, 'Spot', sharedNodeAttributes(),
+    make(go.Panel, 'Auto',
+      make(go.Shape, 'Parallelogram2', {
+        name: 'shape',
+        minSize: new go.Size(80, 80),
+        fill: 'rgb(210,210,210)',
+        stroke: null,
+        margin: air
+      }),
+      make(go.TextBlock, {
+        name: 'text',
+        textAlign: 'center',
+        margin: 10,
+        stroke: lightText,
+        font: font,
+        editable: true
+      },
+      new go.Binding('text', 'text').makeTwoWay())
+    ),
+    makePort('L', go.Spot.Left, true, false),
+    makePort('R', go.Spot.Right, true, false),
     makePort('B', go.Spot.Bottom, true, false)
   );
 
@@ -182,6 +215,7 @@ function FlowCtrl(){
     defaultNode: defaultNode,
     processNode: processNode,
     decisionNode: decisionNode,
+    systemNode: systemNode,
     linkTemplate: linkTemplate,
     chart: chart
   });
@@ -216,6 +250,8 @@ function flowDirective(){
       diagram.nodeTemplateMap.add('Process', flow.processNode);
       diagram.nodeTemplateMap.add('', flow.defaultNode);
       diagram.nodeTemplateMap.add('Decision', flow.decisionNode);
+      diagram.nodeTemplateMap.add('System', flow.systemNode);
+
       diagram.linkTemplate = flow.linkTemplate;
       diagram.toolManager.mouseWheelBehavior = go.ToolManager.WheelZoom;
       diagram.toolManager.linkingTool.temporaryLink.routing = go.Link.Orthogonal;
