@@ -16,21 +16,26 @@
     <meta name="apple-mobile-web-app-title" content="Redd barna">
 
     <!-- Vendor dependencies -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css">
+    <link rel="stylesheet" href="assets/bower_components/ng-tags-input/ng-tags-input.min.css">
     <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular-animate.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.11/angular-ui-router.min.js"></script>
-    <script src="assets/vendor/go.js"></script>
-    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css">
+    <script src="assets/bower_components/ng-tags-input/ng-tags-input.min.js"></script>
+    <script src="assets/bower_components/gojs/go.js"></script>
 
     <!-- Source -->
     <link rel="stylesheet" href="assets/styles.css">
     <script src="assets/app.js"></script>
+    <script src="assets/services/chart-service.js"></script>
     <script src="assets/routes/chart/chart.js"></script>
     <script src="assets/helpers/array/toArray-filter.js"></script>
     <script src="assets/components/flow-chart/flow-chart.js"></script>
 
   </head>
-  <body ui-view="main">
+  <body>
+    <!-- <popover ui-view="details"></popover> -->
+    <main ui-view="main"></main>
   </body>
 </html>

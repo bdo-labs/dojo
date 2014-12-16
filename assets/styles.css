@@ -16,13 +16,13 @@ body {
   font-family: Helvetica neue, Helvetica, Sans-serif;
 }
 
-.ion-edit {
+[class^=ion] {
   font-size: 2em;
   position: absolute;
   top: 1.5em;
   right: 1.5em;
 }
-.ion-edit::after {
+[class^=ion]::after {
   border: 1px solid rgb(180,180,180);
   border-radius: 50%;
   display: block;
@@ -36,6 +36,10 @@ body {
 .active .ion-edit::after,
 .ion-edit:hover::after {
   border-color: rgb(30,30,30);
+}
+
+.ion-search {
+  right: 4.5em;
 }
 
 a {
@@ -102,7 +106,7 @@ header {
   height: 18%;
 }
 #chart {
-  height: 68%;
+  height: 60%;
 }
 
 h1 {
@@ -112,11 +116,62 @@ h1 {
 }
 
 #palette {
-  opacity: 1;
   transition: 1s ease;
+  opacity: 1;
 }
 
 #palette.ng-hide {
   opacity: 0;
 }
 
+popover {
+  display: block;
+}
+
+
+
+tags-input {
+  box-shadow: 0;
+  border: 0;
+  padding: 1em 2em;
+  outline: none;
+}
+tags-input .tags {
+  border-bottom: 1px solid rgb(210,210,210);
+}
+tags-input div,
+tags-input input {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+tags-input div {
+  border: 0;
+}
+
+tags-input .tags {
+  text-align: center;
+}
+
+tags-input .tags .tag-item {
+  background: rgba(224,0,27,.5);
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
+  border: none;
+  color: white;
+  padding-left: .5em;
+  padding-right: .5em;
+  float: none;
+}
+tags-input .tags .tag-item .remove-button {
+  color: white;
+}
+tags-input .host .tags input.input {
+  border-bottom: 1px solid rgb(210,210,210) !important;
+  text-align: center;
+  float: none;
+  width: 15em;
+}
+tags-input .tag-list {
+  height: 30px;
+}

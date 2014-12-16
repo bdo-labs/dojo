@@ -6,6 +6,7 @@
 
 var app = angular.module('flowChart', [
   'ui.router',
+  'ngTagsInput',
   'ngAnimate'
 ]);
 

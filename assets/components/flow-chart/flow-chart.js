@@ -291,18 +291,24 @@ function flowDirective(){
       // TODO Move functionality to the Controller
       //    | To do so we need to share the initiated diagram.
 
-      attrs.$observe('highlight', function(tags){
+      attrs.$observe('highlight', function(ts){
         diagram.nodes.each(function(node){
           var shape = node.findObject('shape');
           var text = node.findObject('text');
 
-          if (tags && typeof tags == 'string'){
-            tags = tags.split(',');
-            tags = tags.map(function(tag){
-              tag = tag.replace(/^[\s]*/, '').replace(/[\s]*$/, '');
-              return tag;
-            });
-          }
+          var tags = scope.$eval(ts);
+          if (Array.isArray(tags)) tags = tags.map(function(tag){
+            return tag.text;
+          });
+          console.log(tags);
+
+          // if (tags && typeof tags == 'string'){
+          //   tags = tags.split(',');
+          //   tags = tags.map(function(tag){
+          //     tag = tag.replace(/^[\s]*/, '').replace(/[\s]*$/, '');
+          //     return tag;
+          //   });
+          // }
 
           node.highlight = 0;
           if (!tags || tags == '') {
