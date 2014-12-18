@@ -22,14 +22,12 @@ app
             templateUrl: 'assets/routes/chart/chart.html'
           },
           details: {
-            controller: 'DetailsCtrl',
-            controllerAs: 'details',
+            controller: 'MainCtrl',
+            controllerAs: 'chart',
             templateUrl: 'assets/routes/chart/details.html',
             resolve: {
-              node: function(ChartService){
-                var chart = ChartService.get();
-                console.dir(chart);
-                return chart.data.nodeDataArray[0];
+              chart: function(ChartService){
+                return ChartService.get();
               }
             }
           }
@@ -37,9 +35,9 @@ app
       });
   }])
   .controller('MainCtrl', MainCtrl)
-  .controller('DetailsCtrl', DetailsCtrl);
 
-function MainCtrl(chart){
+
+function MainCtrl($q, chart){
   var ctrl = this;
 
   var tags = [];
@@ -48,17 +46,16 @@ function MainCtrl(chart){
   });
   chart.tags = tags;
 
+  ctrl.deferred = $q.defer();
+
   _.extend(ctrl, chart);
 }
 
+
 MainCtrl.prototype.loadTags = function(tag){
   var ctrl = this;
-  return ctrl.tags;
+  var deferred = ctrl.deferred;
+  deferred.resolve(ctrl.tags);
+  return deferred.promise;
 };
-
-function DetailsCtrl(node){
-  var ctrl = this;
-
-  _.extend(ctrl, {node: node});
-}
 

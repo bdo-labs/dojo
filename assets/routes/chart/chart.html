@@ -1,7 +1,7 @@
 <header>
   <h1>{{chart.title}}</h1>
-  <tags-input ng-model="chart.highlight">
-    <auto-complete source="chart.loadTags($query)"></auto-complete>
+  <tags-input ng-model="chart.highlight" type="text" tabindex="1" placeholder="Filter by tag">
+    <auto-complete min-length="0" source="chart.loadTags($query)" load-on-focus="true"></auto-complete>
   </tags-input>
   <menu>
     <!--a ng-class="{active: tag && chart.highlight.indexOf(tag) !== -1}"
@@ -16,6 +16,5 @@
 <flow-chart
   editable="{{editable}}"
   highlight="{{chart.highlight}}"
-  chart="chart.data"
-  palette="chart.categories">
+  chart="chart.data">
 </flow-chart>

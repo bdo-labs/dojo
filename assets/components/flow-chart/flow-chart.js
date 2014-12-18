@@ -69,7 +69,7 @@ function FlowCtrl(){
     });
   }
 
-  var defaultNode = make(go.Node, 'Spot', sharedNodeAttributes(),
+  var stepNode = make(go.Node, 'Spot', sharedNodeAttributes(),
     make(go.Panel, 'Auto',
       make(go.Shape, 'Rectangle', {
         name: 'shape',
@@ -106,7 +106,7 @@ function FlowCtrl(){
 
   var processNode = make(go.Node, 'Spot', sharedNodeAttributes(),
     make(go.Panel, 'Auto',
-      make(go.Shape, 'Circle', {
+      make(go.Shape, 'Ellipse', {
         name: 'shape',
         minSize: new go.Size(80, 80),
         fill: 'rgb(255,255,255)',
@@ -209,15 +209,13 @@ function FlowCtrl(){
     linkFromPortIdProperty: 'fromPort',
     linkToPortIdProperty: 'toPort'
   };
-  _.extend(chart, ctrl.chart());
 
   _.extend(ctrl, {
-    defaultNode: defaultNode,
+    stepNode: stepNode,
     processNode: processNode,
     decisionNode: decisionNode,
     systemNode: systemNode,
     linkTemplate: linkTemplate,
-    chart: chart
   });
 
 }
@@ -231,16 +229,13 @@ function flowDirective(){
     bindToController: true,
     templateUrl: 'assets/components/flow-chart/flow-chart.html',
     scope: {
-      chart: '&',
-      categories: '=palette',
+      chart: '=',
       highlight: '@',
       editable: '@'
     },
     link: function(scope, el, attrs, flow){
       var make = go.GraphObject.make;
-      var chart = el.children()[0];
-      var palette = el.children()[1];
-      var diagram = make(go.Diagram, chart, {
+      var diagram = make(go.Diagram, el.children()[0], {
         initialContentAlignment: go.Spot.Center,
         allowDrop: true,
         LinkDrawn: showLinkLabel,
@@ -248,7 +243,7 @@ function flowDirective(){
       });
 
       diagram.nodeTemplateMap.add('Process', flow.processNode);
-      diagram.nodeTemplateMap.add('', flow.defaultNode);
+      diagram.nodeTemplateMap.add('Step', flow.stepNode);
       diagram.nodeTemplateMap.add('Decision', flow.decisionNode);
       diagram.nodeTemplateMap.add('System', flow.systemNode);
 
@@ -263,75 +258,57 @@ function flowDirective(){
        * Add categories to panel.
        */
 
-      make(go.Palette, palette, {
+      var categories = [
+        { category: "Process", text: "Process" },
+        { category: "Step", text: "Step" },
+        { category: "Decision", text: "Decision" },
+        { category: "System", text: "System" }
+      ];
+      var palette = make(go.Palette, el.children()[1], {
+        initialDocumentSpot: go.Spot.TopCenter,
+        initialViewportSpot: go.Spot.TopCenter,
         nodeTemplateMap: diagram.nodeTemplateMap,
-        model: new go.GraphLinksModel(flow.categories)
+        model: new go.GraphLinksModel(categories)
       });
-
-      // TODO Move functionality to the Controller
-      //    | To do so we need to share the initiated diagram.
 
       attrs.$observe('editable', function(editable){
         diagram.nodes.each(function(node){
-          editable = scope.$eval(attrs.editable);
-          node.editable = editable;
           var shape = node.findObject('shape');
           var text = node.findObject('text');
           var location = node.findObject('location');
+          editable = scope.$eval(attrs.editable);
+          var cursor = editable ? 'pointer' : 'default';
+          node.editable = editable;
           text.editable = editable;
           location.movable = editable;
-          if (editable) {
-            shape.cursor = 'pointer';
-            text.cursor = 'pointer';
-          }
+          shape.cursor = text.cursor = cursor;
         });
         flow.editable = editable;
       });
 
-      // TODO Move functionality to the Controller
-      //    | To do so we need to share the initiated diagram.
-
       attrs.$observe('highlight', function(ts){
         diagram.nodes.each(function(node){
-          var shape = node.findObject('shape');
-          var text = node.findObject('text');
+
+          // Shape cache
+
+          var els = [
+            node.findObject('shape'),
+            node.findObject('text')
+          ];
+          node.findLinksOutOf().each(function(link){ els.push(link); });
+
+          // Transform tag-string to array of tags
 
           var tags = scope.$eval(ts);
-          if (Array.isArray(tags)) tags = tags.map(function(tag){
-            return tag.text;
-          });
-          console.log(tags);
-
-          // if (tags && typeof tags == 'string'){
-          //   tags = tags.split(',');
-          //   tags = tags.map(function(tag){
-          //     tag = tag.replace(/^[\s]*/, '').replace(/[\s]*$/, '');
-          //     return tag;
-          //   });
-          // }
-
-          node.highlight = 0;
-          if (!tags || tags == '') {
-            node.highlight = 1;
-          } else {
-            angular.forEach(tags, function(tag){
-              if (_.contains(node.data.tags, tag)){
-                node.highlight = 1;
-              }
-            });
+          if (Array.isArray(tags)) {
+            tags = _.pluck(tags, 'text');
           }
 
-          if (!node.highlight) {
-            shape.opacity = text.opacity = .2;
-            node.findLinksOutOf().each(function(link){
-              link.opacity = .2;
-            });
-          } else {
-            shape.opacity = text.opacity = 1;
-            node.findLinksOutOf().each(function(link){
-              link.opacity = 1;
-            });
+          if (!tags.length) return highlight(els);
+          if (_.intersection(node.data.tags, tags).length == tags.length) {
+            return highlight(els);
           }
+          shade(els);
 
         });
       });
@@ -343,3 +320,14 @@ function flowDirective(){
     }
   };
 }
+
+function highlight(){
+  var els = _.flatten(Array.prototype.slice.call(arguments));
+  angular.forEach(els, function(el){ el.opacity = 1; });
+}
+
+function shade(){
+  var els = _.flatten(Array.prototype.slice.call(arguments));
+  angular.forEach(els, function(el){ el.opacity = .2; });
+}
+
