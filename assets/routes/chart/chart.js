@@ -9,7 +9,12 @@ app
   .config(['$stateProvider', function($stateProvider){
     $stateProvider
       .state('chart', {
+        abstract: true,
         url: '/chart',
+        template: '<popover ui-view="details"></popover><main ui-view="main"></main>'
+      })
+      .state('chart.index', {
+        url: '',
         views: {
           main: {
             controller: 'MainCtrl',
@@ -20,33 +25,23 @@ app
               }
             },
             templateUrl: 'assets/routes/chart/chart.html'
-          },
-          details: {
-            controller: 'MainCtrl',
-            controllerAs: 'chart',
-            templateUrl: 'assets/routes/chart/details.html',
-            resolve: {
-              chart: function(ChartService){
-                return ChartService.get();
-              }
-            }
           }
         }
-      });
+      })
   }])
   .controller('MainCtrl', MainCtrl)
 
 
 function MainCtrl($q, chart){
   var ctrl = this;
+  ctrl.deferred = $q.defer();
 
+  // Creates an array of unique tags
   var tags = [];
   angular.forEach(chart.data.nodeDataArray, function(node){
     tags = _.union(tags, node.tags);
   });
   chart.tags = tags;
-
-  ctrl.deferred = $q.defer();
 
   _.extend(ctrl, chart);
 }

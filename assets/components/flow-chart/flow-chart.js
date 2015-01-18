@@ -1,6 +1,6 @@
 
 var app = angular.module('flowChart');
-app.controller('FlowCtrl', FlowCtrl);
+app.controller('FlowCtrl', ['$state', FlowCtrl]);
 app.directive('flowChart', flowDirective);
 
 function showLinkLabel(e) {
@@ -44,7 +44,12 @@ function FlowCtrl(){
         locationSpot: go.Spot.Center,
         selectionAdorned: false,
         click: function (e, obj) {
-          if (obj.editable) return;
+          if (obj.editable) {
+            // ngDialog.open({
+            //   template: 'assets/components/flow-chart/details.html',
+            //   controller: ['']
+            // })
+          }
           alert('We could replace this dialog with some fancy metadata and documents.');
         },
         mouseEnter: function (e, obj) { showPorts(obj.part, true); },

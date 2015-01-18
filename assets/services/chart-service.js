@@ -31,7 +31,8 @@ function ChartService(){
     {"from":-10, "to":-4, "fromPort":"B", "toPort":"R", "points":[590.0000000000001,372.65000000000003,590.0000000000001,382.65000000000003,590.0000000000001,444,498.5,444,406.99999999999994,444,396.99999999999994,444]}
   ];
 
-  this.get = function(){
+  this.get = function(select){
+    console.count('service');
     var chart = {
       title: 'HK, kostnader i grants',
       data: {
@@ -39,6 +40,12 @@ function ChartService(){
         linkDataArray: linksArray
       }
     };
+    if (select && select.text) {
+      var key = _.findKey(chart.data.nodeDataArray, select);
+      console.log(key);
+      console.log(chart.data.nodeDataArray[key]);
+      return chart.data.nodeDataArray[key];
+    }
     return chart;
   }
 }

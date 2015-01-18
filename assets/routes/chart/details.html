@@ -1,7 +1,7 @@
-<form>
+<form ng-show="ctrl.show">
   <fieldset>
     <label for="title">Title: </label>
-    <input id="title" type="text" name="title">
+    <input id="title" type="text" name="title" ng-model="ctrl.node">
     <label for="description">Description: </label>
     <textarea name="description"></textarea>
   </fieldset>
